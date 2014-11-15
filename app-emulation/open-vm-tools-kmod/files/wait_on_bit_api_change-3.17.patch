@@ -1,0 +1,11 @@
+--- a/modules/linux/vmhgfs/page.c	2014-11-15 11:35:29.479859262 -0800
++++ b/modules/linux/vmhgfs/page.c	2014-11-15 11:34:13.379859552 -0800
+@@ -1383,7 +1383,7 @@
+ HgfsWbRequestWait(HgfsWbPage *req)  // IN: request of page data to write
+ {
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 13)
+-   return wait_on_bit(&req->wb_flags,
++   return wait_on_bit_action(&req->wb_flags,
+                       PG_BUSY,
+                       HgfsWbRequestWaitUninterruptible,
+                       TASK_UNINTERRUPTIBLE);

@@ -50,14 +50,18 @@ pkg_setup() {
 }
 
 src_prepare() {
-    epatch "${FILESDIR}/0001-Remove-unused-DEPRECATED-macro.patch"
-    epatch "${FILESDIR}/0002-Conditionally-define-g_info-macro.patch"
-    epatch "${FILESDIR}/0003-Add-kuid_t-kgid_t-compatibility-layer.patch"
-    epatch "${FILESDIR}/0004-Use-new-link-helpers.patch"
-    epatch "${FILESDIR}/0005-Update-hgfs-file-operations-for-newer-kernels.patch"
-    epatch "${FILESDIR}/0006-Fix-vmxnet-module-on-kernels-3.16.patch"
-    epatch "${FILESDIR}/0007-Fix-vmhgfs-module-on-kernels-3.16.patch"
-    epatch "${FILESDIR}/0008-Fix-segfault-in-vmhgfs.patch"
+	# I haven't invested the time to correctly set the version boundaries for each of these applications.
+	# For now, apply everything on 3.16 and greater, since that's the last version I know work.
+    kernel_is ge 3 16 0 && epatch "${FILESDIR}/0001-Remove-unused-DEPRECATED-macro.patch"
+    kernel_is ge 3 16 0 && epatch "${FILESDIR}/0002-Conditionally-define-g_info-macro.patch"
+    kernel_is ge 3 16 0 && epatch "${FILESDIR}/0003-Add-kuid_t-kgid_t-compatibility-layer.patch"
+    kernel_is ge 3 16 0 && epatch "${FILESDIR}/0004-Use-new-link-helpers.patch"
+    kernel_is ge 3 16 0 && epatch "${FILESDIR}/0005-Update-hgfs-file-operations-for-newer-kernels.patch"
+    kernel_is ge 3 16 0 && epatch "${FILESDIR}/0006-Fix-vmxnet-module-on-kernels-3.16.patch"
+    kernel_is ge 3 16 0 && epatch "${FILESDIR}/0007-Fix-vmhgfs-module-on-kernels-3.16.patch"
+    kernel_is ge 3 16 0 && epatch "${FILESDIR}/0008-Fix-segfault-in-vmhgfs.patch"
+	# Henceforth, I'll keep more precise track of patch application boundaries:
+	kernel_is ge 3 17 0 && epatch "${FILESDIR}/wait_on_bit_api_change-3.17.patch"
 	epatch_user
 }
 
